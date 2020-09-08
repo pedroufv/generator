@@ -1,0 +1,5 @@
+<div class="mr-3">
+    <a href="{{ route('{{routeName}}.index') }}" class="{{ Request::is('{{routeName}}*') ? 'text-gray-100' : 'text-indigo-400' }} hover:text-indigo-400 no-underline">
+        {{ __('{{tableName}}.index') }}
+    </a>
+</div>

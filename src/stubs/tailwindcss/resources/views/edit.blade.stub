@@ -1,0 +1,26 @@
+@extends('layouts.app')
+
+@section('breadcrumbs', Breadcrumbs::render('{{routeName}}.edit', ${{objectName}}))
+
+@section('content')
+    <div class="row justify-content-center">
+        <div class="col-md-12">
+            <div class="card">
+                <div class="card-header">
+                    <h2>@lang('app.edit.title', ['id' => ${{objectName}}->id])</h2>
+                </div>
+                <div class="card-body">
+                    <form action="{{ route('{{routeName}}.update', ['{{objectName}}' => ${{objectName}}]) }}" method="post" name="edit">
+                        @method('patch')
+                        @csrf
+                        {{column}}
+                        <div class="form-group">
+                            <button type="submit" class="btn btn-primary">@lang('app.save')</button>
+                            <button type="button" class="btn btn-outline-dark" onclick="location.href='{{ route('{{routeName}}.show', ['{{objectName}}' => ${{objectName}}]) }}'">@lang('app.cancel')</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+@endsection
