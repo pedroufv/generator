@@ -8,6 +8,13 @@ use Illuminate\Filesystem\Filesystem;
 class ViewSyntaxBuilder extends AbstractSintaxBuilder
 {
     /**
+     *  Path to view stub
+     *
+     * @var string
+     */
+    private $stubPath;
+
+    /**
      * A template to be inserted.
      *
      * @var string
@@ -24,13 +31,15 @@ class ViewSyntaxBuilder extends AbstractSintaxBuilder
     /**
      * Create a new command instance.
      *
-     * @param string     $viewName
+     * @param string $stubPath
+     * @param string $viewName
      * @param Filesystem $files
      */
-    public function __construct(string $viewName, Filesystem $files)
+    public function __construct(string $stubPath, string $viewName, Filesystem $files)
     {
         parent::__construct();
 
+        $this->stubPath = $stubPath;
         $this->viewName = $viewName;
         $this->files = $files;
     }
@@ -95,7 +104,7 @@ class ViewSyntaxBuilder extends AbstractSintaxBuilder
      */
     private function getSchemaWrapper(): string
     {
-        return file_get_contents($this->resolveStubPath("/resources/views/{$this->viewName}.blade.stub"));
+        return file_get_contents($this->stubPath);
     }
 
     /**
