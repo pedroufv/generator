@@ -14,6 +14,7 @@ class NavCommand extends AbstractCommand
      */
     protected $signature = 'ha-generator:nav
         {name : Model name (singular) for example User}
+        {--t|tailwindcss : Use Tailwindcss}
         {--no-log : No logging}';
 
     /**
@@ -45,7 +46,12 @@ class NavCommand extends AbstractCommand
             return;
         }
 
-        $this->append($path, $this->compileStub());
+        if ($this->option('tailwindcss')) {
+            $this->files->append($path, $this->compileStub());
+        } else {
+            $this->append($path, $this->compileStub());
+        }
+
 
         $filename = pathinfo($path, PATHINFO_FILENAME);
         $this->line("<info>Inserted Nav in:</info> {$filename}");
@@ -101,8 +107,8 @@ class NavCommand extends AbstractCommand
      */
     protected function compileStub(): string
     {
-        $dirPath = $this->option('tailwindcss') ? '/tailwindcss/resources/views' : '/resources/views';
-        $stub = $this->files->get($this->resolveStubPath("{$dirPath}/layouts/nav.stub"));
+        $dirResources = $this->option('tailwindcss') ? '/tailwindcss/resources' : '/resources';
+        $stub = $this->files->get($this->resolveStubPath("{$dirResources}/layouts/nav.stub"));
 
         $this->replaceRouteName($stub)
             ->replaceTableName($stub);

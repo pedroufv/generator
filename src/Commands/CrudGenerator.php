@@ -21,7 +21,7 @@ class CrudGenerator extends Command
         {--y|yes : Skip confirmation}
         {--a|api : The application is an API?}
         {--d|datatables : Use to datatables}
-        {--t|tailwindcss : Use to datatables}
+        {--t|tailwindcss : Use Tailwindcss}
         {--s|schema= : Schema options?}';
 
     /**

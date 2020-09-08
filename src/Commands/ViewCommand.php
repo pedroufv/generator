@@ -18,6 +18,7 @@ class ViewCommand extends AbstractCommand
         {view=index : View name [index, show, create, edit, delete]}
         {--no-log : No logging}
         {--d|datatables : Use to datatables}
+        {--t|tailwindcss : Use Tailwindcss}
         {--s|schema= : Schema options?}';
 
     /**
@@ -26,6 +27,13 @@ class ViewCommand extends AbstractCommand
      * @var string
      */
     protected $description = 'Create new resources views';
+
+    /**
+     *  Path to view stub
+     *
+     * @var string
+     */
+    private $stubPath;
 
     /**
      * @var string
@@ -89,10 +97,10 @@ class ViewCommand extends AbstractCommand
      */
     protected function compileStub(): string
     {
-        $dirPath = $this->option('tailwindcss') ? '/tailwindcss/resources/views' : '/resources/views';
+        $viewDir = $this->option('tailwindcss') ? '/tailwindcss/resources/views' : '/resources/views';
         $datatables = 'index' === $this->viewName && $this->option('datatables') ? 'Datatables' : '';
 
-        $stub = $this->files->get($this->resolveStubPath("{$dirPath}/{$this->viewName}{$datatables}.blade.stub"));
+        $stub = $this->files->get($this->stubPath = $this->resolveStubPath("{$viewDir}/{$this->viewName}{$datatables}.blade.stub"));
 
         if ($this->option('schema')) {
             $this->replaceSchema($stub);
@@ -118,7 +126,7 @@ class ViewCommand extends AbstractCommand
             $schema = (new SchemaParser())->parse($schema);
         }
 
-        $stub = (new ViewSyntaxBuilder($this->viewName, $this->files))->create($schema);
+        $stub = (new ViewSyntaxBuilder($this->stubPath, $this->viewName, $this->files))->create($schema);
 
         return $this;
     }
