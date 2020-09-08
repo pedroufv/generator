@@ -89,9 +89,10 @@ class ViewCommand extends AbstractCommand
      */
     protected function compileStub(): string
     {
+        $dirPath = $this->option('tailwindcss') ? '/tailwindcss/resources/views' : '/resources/views';
         $datatables = 'index' === $this->viewName && $this->option('datatables') ? 'Datatables' : '';
 
-        $stub = $this->files->get($this->resolveStubPath("/resources/views/{$this->viewName}{$datatables}.blade.stub"));
+        $stub = $this->files->get($this->resolveStubPath("{$dirPath}/{$this->viewName}{$datatables}.blade.stub"));
 
         if ($this->option('schema')) {
             $this->replaceSchema($stub);

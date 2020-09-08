@@ -21,6 +21,7 @@ class CrudGenerator extends Command
         {--y|yes : Skip confirmation}
         {--a|api : The application is an API?}
         {--d|datatables : Use to datatables}
+        {--t|tailwindcss : Use to datatables}
         {--s|schema= : Schema options?}';
 
     /**
@@ -299,7 +300,10 @@ class CrudGenerator extends Command
     protected function nav(string $name): void
     {
         try {
-            $this->call('ha-generator:nav', ['name' => $name, '--no-log' => $this->noLogDetailed]);
+            $params = ['name' => $name, '--no-log' => $this->noLogDetailed];
+            $params += $this->option('tailwindcss') ? ['--tailwindcss' => $this->option('tailwindcss')] : [];
+
+            $this->call('ha-generator:nav', $params);
         } catch (\Exception $exception) {
             $this->warn("Unable to create nav to {$name}");
         }
@@ -314,6 +318,10 @@ class CrudGenerator extends Command
      */
     protected function breadcrumbs(string $name, string $view = null, string $parent = null): void
     {
+        if ($this->option('tailwindcss')) {
+            return;
+        }
+
         $params = ['name' => $name, '--no-log' => $this->noLogDetailed];
 
         if ($view) {
@@ -350,6 +358,7 @@ class CrudGenerator extends Command
     {
         $params = ['name' => $name, '--no-log' => $this->noLogDetailed];
         $params += $this->option('datatables') ? ['--datatables' => $this->option('datatables')] : [];
+        $params += $this->option('tailwindcss') ? ['--tailwindcss' => $this->option('tailwindcss')] : [];
 
         if ($view) {
             $params['view'] = $view;
