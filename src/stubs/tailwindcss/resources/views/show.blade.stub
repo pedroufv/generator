@@ -1,35 +1,33 @@
 @extends('layouts.app')
 
-@section('breadcrumbs', Breadcrumbs::render('{{routeName}}.show', ${{objectName}}))
-
 @section('content')
-    <div class="row justify-content-center">
-        <div class="col-md-12">
-            <div class="card">
-                <div class="card-header">
-                    <h2>@lang('app.show.title', ['item' => __('{{routeName}}.show', ['{{objectName}}' => ${{objectName}}->id])])</h2>
+    <div class="container mx-auto">
+        <div class="flex flex-wrap justify-center">
+            <div class="w-full max-w-sm">
+                <div class="flex flex-col break-words bg-white border-2 rounded shadow-md">
+                    <div class="font-semibold bg-gray-200 text-gray-700 py-3 px-6 mb-0">
+                        @lang('app.show.title', ['item' => __('{{routeName}}.show', ['{{objectName}}' => ${{objectName}}->id])])
+                    </div>
                 </div>
-                <div class="card-body">
-                    <div class="form-group">
-                        <button type="button" class="btn btn-outline-primary"
-                                onclick="location.href='{{ route('{{routeName}}.edit', ['{{objectName}}' => ${{objectName}}]) }}'"
-                                title="@lang('app.edit.title', ['id' => ${{objectName}}->id])">
-                            @lang('app.edit')
-                        </button>
-                        <button class="btn btn-outline-danger"
-                                onclick="window.location='{{ route('{{routeName}}.delete', ['{{objectName}}' => ${{objectName}}]) }}'"
-                                title="@lang('app.delete.title', ['id' => ${{objectName}}->id])">
-                            @lang('app.delete')
-                        </button>
-                    </div>
-                    <div class="well">
-                        <dl>
-                            @foreach(${{objectName}}->toArray() as $key => $value)
-                                <dt>@lang('{{tableName}}.'.$key)</dt>
-                                <dd>{{ $value }}</dd>
-                            @endforeach
-                        </dl>
-                    </div>
+                <div class="flex flex-wrap">
+                    <button type="button" class="inline-block align-middle text-center select-none border font-bold whitespace-no-wrap py-2 px-4 rounded text-base leading-normal no-underline text-gray-100 bg-blue-500 hover:bg-blue-700"
+                            onclick="location.href='{{ route('{{routeName}}.edit', ['{{objectName}}' => ${{objectName}}]) }}'"
+                            title="@lang('app.edit.title', ['id' => ${{objectName}}->id])">
+                        @lang('app.edit')
+                    </button>
+                    <button type="button" class="inline-block align-middle text-center select-none border font-bold whitespace-no-wrap py-2 px-4 rounded text-base leading-normal no-underline text-gray-100 bg-blue-500 hover:bg-red-700"
+                            onclick="window.location='{{ route('{{routeName}}.delete', ['{{objectName}}' => ${{objectName}}]) }}'"
+                            title="@lang('app.delete.title', ['id' => ${{objectName}}->id])">
+                        @lang('app.delete')
+                    </button>
+                </div>
+                <div class="w-full p-6">
+                    <dl>
+                        @foreach(${{objectName}}->toArray() as $key => $value)
+                            <dt>@lang('{{tableName}}.'.$key)</dt>
+                            <dd>{{ $value }}</dd>
+                        @endforeach
+                    </dl>
                 </div>
             </div>
         </div>
